@@ -1,0 +1,25 @@
+<ul [ngClass]="[prefix + '-node']">
+  <li>
+    <div [ngClass]="[prefix + '-item']">
+      <span [ngClass]="[prefix + '-title-wrap']">
+        <span [draggable]="draggable" id="dragBox"
+              [ngClass]="[dragOverClass, prefix + '-node-title', dragNodeHighlight ? 'tree-drag-selected' : '']">
+          <button [ngClass]="[prefix + '-arrow', node.isExpand ? prefix + '-arrow-open' : '']"
+                  [ngStyle]="{left: '-40px'}"
+                  *ngIf="node?.children?.length > 0"
+                  mat-icon-button color="primary" (click)="toggleCollapseStatus($event)">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+          <app-node-content [node]="node" style="pointer-events: none"></app-node-content>
+        </span>
+      </span>
+    </div>
+    <!-- 关键点：调用自身形成tree -->
+    <div [ngClass]="[node.isExpand ? '' : 'hide']">
+      <app-tree-node
+        *ngFor="let nodeTree of node.children"
+        [parentData]="node"
+        [node]="nodeTree"></app-tree-node>
+    </div>
+  </li>
+</ul>
